@@ -8,13 +8,20 @@ const errorHandler = require('../middlewares/error');
 const passport = require('passport');
 const jwtStrategy = require('../config/passport.config');
 const compression = require('compression');
+const dbConnect = require('./mongoose.config');
 
-function expressConfig(app) {
+
+async function expressConfig(app) {
+    // config and connect mongoose;
+    dbConnect();
     // set HTTP headers properly
     app.use(helmet());
 
     // Middleware to enable CORS
-    app.use(cors());
+    app.use(cors({
+        origin: ["http://localhost:3000", "http://localhost:3001"],
+        credentials: true, 
+    }));
 
     // Middleware to parse requests with JSON payloads
     app.use(express.json());
