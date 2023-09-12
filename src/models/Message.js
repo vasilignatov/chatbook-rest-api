@@ -1,14 +1,20 @@
 const mongoose = require('mongoose');
-const toJson = require('@meanie/mongoose-to-json');
+const toJSON = require('@meanie/mongoose-to-json');
 
-const messageSchema = new mongoose.Schema({
-    roomId: mongoose.Schema.Types.ObjectId,
-    postedBy: mongoose.Schema.Types.ObjectId,
-    readBy: [mongoose.Schema.Types.ObjectId],
-    text: String
-}, { timestamps: true });
+const messageSchema = new mongoose.Schema(
+    {
+        chatRoomId: mongoose.Schema.Types.ObjectId,
+        postedByUserId: mongoose.Schema.Types.ObjectId,
+        text: String,
+        // readBy: [mongoose.Schema.Types.ObjectId],
+    },
+    {
+        timestamps: true
+    }
+);
 
-tokenSchema.plugin(toJSON);
+messageSchema.plugin(toJSON);
 
-const Message = mongoose.model('Room', messageSchema);
+const Message = mongoose.model('Message', messageSchema);
+
 module.exports = Message;
