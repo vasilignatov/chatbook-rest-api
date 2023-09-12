@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const toJson = require('@meanie/mongoose-to-json');
+const toJSON = require('@meanie/mongoose-to-json');
 
 const roomSchema = new mongoose.Schema({
     userIds: [mongoose.Schema.Types.ObjectId],
@@ -12,7 +12,7 @@ const roomSchema = new mongoose.Schema({
     timestamps: true
 });
 
-tokenSchema.plugin(toJSON);
+roomSchema.plugin(toJSON);
 
 const Room = mongoose.model('Room', roomSchema);
 module.exports = Room;
