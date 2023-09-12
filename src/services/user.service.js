@@ -5,6 +5,7 @@ const httpStatus = require('http-status');
 const getUsers = async () => {
     return User.find({});
 }
+
 const getUserById = async (id) => {
     return User.findById(id);
 }
@@ -34,11 +35,18 @@ const deleteUserById = async (id) => {
     return await User.findByIdAndDelete(id);
 }
 
+const getUsersByIds = async (ids) => {
+    const users = await User.find({ _id: { $in: ids } });
+    return users;
+}
+
+
 module.exports = {
     getUsers,
     getUserById,
     getUserByEmail,
     createUser,
     updateUserById,
-    deleteUserById
+    deleteUserById,
+    getUsersByIds
 }

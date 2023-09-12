@@ -11,7 +11,6 @@ const AppError = require('../utils/AppError');
  * @returns {Promise<string>} via jwt utils!
  */
 const createToken = (userId, expires, type = 'refresh', secret = config.JWT_SECRET) => {
-    console.log('TOKEN EXPIRES: ', expires);
     const payload = {
         sub: userId,
         iat: Math.floor(Date.now() / 1000),
