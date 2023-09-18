@@ -13,10 +13,10 @@ const register = catchAsync(async (req, res) => {
         .status(httpStatus.CREATED)
         .json({
             user: {
-                id: userData.id,
-                email: userData.email,
-                firstName: userData.firstName,
-                lastName: userData.lastName,
+                id: user.id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
             },
             tokens: tokens
         });

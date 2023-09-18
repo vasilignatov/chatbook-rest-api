@@ -1,41 +1,44 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const chatServise = require('../services/chat.service');
-const userServise = require('../services/user.service');
+const chatService = require('../services/chat.service');
+const userService = require('../services/user.service');
 const AppError = require('../utils/AppError');
 
 const initiate = catchAsync(async (req, res) => {
     const { userIds, type } = req.body;
     const chatInitiator = req.user._id;
     const allUserIds = [...userIds, chatInitiator];
-    const chatRoom = await chatServise.initiateChat(allUserIds, type, chatInitiator);
+    const chatRoom = await chatService.initiateChat(allUserIds, type, chatInitiator);
 
     res
         .status(httpStatus.OK)
-        .json({ chatRoom });
+        .json(chatRoom);
 });
 
 const postMessage = catchAsync(async (req, res) => {
     const { roomId } = req.params;
 
     const { text } = req.body;
-
     const userId = req.user._id;
-    const post = await chatServise.createPostInChatRoom(roomId, text, userId);
+    const post = await chatService.createPostInChatRoom(roomId, text, userId);
+    console.log(post);
 
     // emit new message to the room
     global.io.sockets.in(roomId).emit('new-message', { message: post });
+    res.end();
 });
 
 const getRecentChat = catchAsync(async (req, res) => {
-    const userId = req.user._id;
-    const rooms = await chatServise.getChatRoomsByUserId(userId);
-    console.log(rooms);
+    const userId = req.user._id.toString();
+    console.log("UserId: ", userId);
+    const rooms = await chatService.getChatRoomsByUserId(userId);
+    console.log("Rooms: ", rooms);
 
     const roomIds = rooms.map(room => room._id);
-    console.log(roomIds);
+    console.log('roomId: ', roomIds);
 
-    const recentChat = await chatServise.getRecentChat(roomIds, userId);
+    const recentChat = await chatService.getRecentChat(roomIds, userId);
+    console.log('recent chat: ', recentChat);
 
     res
         .status(httpStatus.OK)
@@ -47,20 +50,19 @@ const getRecentChat = catchAsync(async (req, res) => {
 const getChatByRoomId = catchAsync(async (req, res) => {
     const { roomId } = req.params;
 
-    const room = await chatServise.getConversationByRoomId(roomId);
+    const room = await chatService.getChatRoomByRoomId(roomId);
 
     if (!room) {
         throw new AppError('No room exist for this id', httpStatus.BAD_REQUEST);
     }
 
-    const user = userServise.getUsersByIds(room.userIds);
-    const chat = await chatServise.getChatByRoomId(roomId);
+    const users = await userService.getUsersByIds(room.userIds);
+    const chatMessages = await chatService.getChatByRoomId(roomId);
 
     res
         .status(httpStatus.OK)
-        .json({ chat, user });
+        .json({ chatMessages, users });
 });
-
 
 module.exports = {
     initiate,
