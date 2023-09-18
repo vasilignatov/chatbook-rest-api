@@ -4,9 +4,11 @@ const toJSON = require('@meanie/mongoose-to-json');
 const messageSchema = new mongoose.Schema(
     {
         chatRoomId: mongoose.Schema.Types.ObjectId,
-        postedByUserId: mongoose.Schema.Types.ObjectId,
+        postedByUserId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
         text: String,
-        // readBy: [mongoose.Schema.Types.ObjectId],
     },
     {
         timestamps: true
