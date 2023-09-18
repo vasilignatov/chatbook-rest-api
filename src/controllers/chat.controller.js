@@ -30,21 +30,16 @@ const postMessage = catchAsync(async (req, res) => {
 
 const getRecentChat = catchAsync(async (req, res) => {
     const userId = req.user._id.toString();
-    console.log("UserId: ", userId);
+
     const rooms = await chatService.getChatRoomsByUserId(userId);
-    console.log("Rooms: ", rooms);
 
     const roomIds = rooms.map(room => room._id);
-    console.log('roomId: ', roomIds);
 
     const recentChat = await chatService.getRecentChat(roomIds, userId);
-    console.log('recent chat: ', recentChat);
 
     res
         .status(httpStatus.OK)
-        .json({
-            chat: recentChat
-        });
+        .json(recentChat);
 });
 
 const getChatByRoomId = catchAsync(async (req, res) => {

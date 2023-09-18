@@ -20,9 +20,9 @@ const getRecentChat = (chatRoomIds, userId) => {
                 _id: '$chatRoomId',
                 messageId: { $last: '$_id' },
                 chatRoomId: { $last: '$chatRoomId' },
-                message: { $last: '$message' },
+                text: { $last: '$text' },
                 type: { $last: '$type' },
-                postedByUser: { $last: '$postedByUser' },
+                postedByUserId: { $last: '$postedByUserId' },
                 createdAt: { $last: '$createdAt' },
             }
         },
@@ -31,13 +31,13 @@ const getRecentChat = (chatRoomIds, userId) => {
         {
             $lookup: {
                 from: 'users',
-                localField: 'postedByUser',
+                localField: 'postedByUserId',
                 foreignField: '_id',
-                as: 'postedByUser',
+                as: 'postedByUserId',
             }
         },
 
-        { $unwind: "$postedByUser" },
+        { $unwind: "$postedByUserId" },
         {
             $lookup: {
                 from: 'rooms',
@@ -47,7 +47,6 @@ const getRecentChat = (chatRoomIds, userId) => {
             }
         },
         { $unwind: "$roomInfo" },
-        { $unwind: "$roomInfo.userIds" }
     ])
 }
 
@@ -56,16 +55,6 @@ const getChatByRoomId = (chatRoomId) => {
         .find({ chatRoomId })
         .sort({ createdAt: -1 })
         .populate('postedByUserId')
-    // { $sort: { createdAt: -1 } },        // {
-    //     $lookup: {
-    //         from: 'users',
-    //         localField: 'postedByUserId',
-    //         foreignField: '_id',
-    //         as: 'postedByUserId',
-    //     }
-    // },
-    // { $unwind: "$postedByUser" }
-    // ]);
 }
 
 const initiateChat = async (userIds, type, chatInitiator) => {
@@ -108,7 +97,6 @@ const createPostInChatRoom = async (chatRoomId, text, postedByUserId) => {
     // TODO
     return post;
 }
-
 
 module.exports = {
     getChatRoomsByUserId,
