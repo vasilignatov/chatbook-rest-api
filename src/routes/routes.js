@@ -5,6 +5,7 @@ const authController = require('./auth.route.js');
 const chatController = require('./chat.route.js');
 
 const AppError = require('../utils/AppError');
+const { auth } = require('../middlewares/auth.js');
 
 router.use((req, res, next) => {
     console.log(req.url);
@@ -13,7 +14,7 @@ router.use((req, res, next) => {
 
 router.use('/users', userController);
 router.use('/auth', authController);
-router.use('/chat', chatController);
+router.use('/chat', auth, chatController);
 
 router.all('*', (req, res, next) => {
     next(new AppError(httpStatus['404'], httpStatus.NOT_FOUND));
