@@ -6,7 +6,13 @@ const getChatRoomsByUserId = async (userId) => {
     return rooms;
 }
 
+const getChatRoomByRoomId = async (roomId) => {
+    const room = await Room.findById(roomId);
+    return room;
+}
+
 const getRecentChat = (chatRoomIds, userId) => {
+
     return Message.aggregate([
         { $match: { chatRoomId: { $in: chatRoomIds } } },
         {
@@ -18,7 +24,6 @@ const getRecentChat = (chatRoomIds, userId) => {
                 type: { $last: '$type' },
                 postedByUser: { $last: '$postedByUser' },
                 createdAt: { $last: '$createdAt' },
-                readByRecipients: { $last: '$readByRecipients' },
             }
         },
         { $sort: { createdAt: -1 } },
@@ -47,19 +52,20 @@ const getRecentChat = (chatRoomIds, userId) => {
 }
 
 const getChatByRoomId = (chatRoomId) => {
-    return Message.aggregate([
-        { $match: { chatRoomId } },
-        { $sort: { createdAt: -1 } },
-        {
-            $lookup: {
-                from: 'users',
-                localField: 'postedByUser',
-                foreignField: '_id',
-                as: 'postedByUser',
-            }
-        },
-        { $unwind: "$postedByUser" }
-    ]);
+    return Message
+        .find({ chatRoomId })
+        .sort({ createdAt: -1 })
+        .populate('postedByUserId')
+    // { $sort: { createdAt: -1 } },        // {
+    //     $lookup: {
+    //         from: 'users',
+    //         localField: 'postedByUserId',
+    //         foreignField: '_id',
+    //         as: 'postedByUserId',
+    //     }
+    // },
+    // { $unwind: "$postedByUser" }
+    // ]);
 }
 
 const initiateChat = async (userIds, type, chatInitiator) => {
@@ -98,7 +104,7 @@ const createPostInChatRoom = async (chatRoomId, text, postedByUserId) => {
         text,
         postedByUserId,
     });
-    
+
     // TODO
     return post;
 }
@@ -106,6 +112,7 @@ const createPostInChatRoom = async (chatRoomId, text, postedByUserId) => {
 
 module.exports = {
     getChatRoomsByUserId,
+    getChatRoomByRoomId,
     getRecentChat,
     getChatByRoomId,
     initiateChat,
