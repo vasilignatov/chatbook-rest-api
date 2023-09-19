@@ -21,7 +21,6 @@ const getRecentChat = (chatRoomIds, userId) => {
                 messageId: { $last: '$_id' },
                 chatRoomId: { $last: '$chatRoomId' },
                 text: { $last: '$text' },
-                type: { $last: '$type' },
                 postedByUserId: { $last: '$postedByUserId' },
                 createdAt: { $last: '$createdAt' },
             }
