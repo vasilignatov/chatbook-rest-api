@@ -15,7 +15,7 @@ const messageSchema = new mongoose.Schema(
     }
 );
 
-messageSchema.plugin(toJSON);
+// messageSchema.plugin(toJSON);
 
 const Message = mongoose.model('Message', messageSchema);
 

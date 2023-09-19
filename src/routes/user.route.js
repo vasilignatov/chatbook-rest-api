@@ -1,13 +1,17 @@
 const router = require('express').Router();
 const userController = require('../controllers/user.controller');
-const { auth, isAdmin } = require('../middlewares/auth');
+const { auth, isAdmin, isOwn } = require('../middlewares/auth');
 
-router.get('/', auth, isAdmin, userController.getUsers);
-router.post('/', auth, isAdmin, userController.createUser);
+// only admin can acess these routes
+router.get('/', isAdmin, userController.getUsers);
+router.post('/', isAdmin, userController.createUser);
 
-router.get('/:userId', auth, userController.getUser);
-router.put('/:userId', auth, userController.updateUser);
-router.delete('/:userId', auth, userController.deleteUser);
+// every user can get other users data (excluding the password and email)
+router.get('/:userId', userController.getUser);
+
+// Only you can delete and update your own user profile
+router.put('/:userId', isOwn, userController.updateUser);
+router.delete('/:userId', isOwn, userController.deleteUser);
 
 
 module.exports = router;

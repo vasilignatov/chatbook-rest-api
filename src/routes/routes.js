@@ -12,7 +12,7 @@ router.use((req, res, next) => {
     next();
 });
 
-router.use('/users', userController);
+router.use('/users', auth, userController);
 router.use('/auth', authController);
 router.use('/chat', auth, chatController);
 

@@ -32,7 +32,7 @@ const tokenSchema = new mongoose.Schema({
     }
 );
 
-tokenSchema.plugin(toJSON);
+// tokenSchema.plugin(toJSON);
 
 const Token = mongoose.model('Token', tokenSchema);
 

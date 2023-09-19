@@ -19,7 +19,7 @@ const roomSchema = new mongoose.Schema({
     timestamps: true
 });
 
-roomSchema.plugin(toJSON);
+// roomSchema.plugin(toJSON);
 
 const Room = mongoose.model('Room', roomSchema);
 module.exports = Room;

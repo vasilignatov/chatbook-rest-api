@@ -40,6 +40,9 @@ const userSchema = mongoose.Schema({
             }
         },
     },
+    imageUrl: {
+        type: String
+    }
 }, { timestamps: true });
 
 userSchema.statics.isEmailTaken = async function (email) {
@@ -60,7 +63,7 @@ userSchema.method('validatePassword', function (password) {
 });
 
 
-userSchema.plugin(toJson);
+// userSchema.plugin(toJson);
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
