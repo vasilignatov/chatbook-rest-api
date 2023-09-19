@@ -19,15 +19,23 @@ const auth = (req, res, next) => {
   })(req, res, next);
 }
 
-const isAdmin = async (req, res, next) => {
+const isAdmin = (req, res, next) => {
   if (!req.isAdmin) {
     next(new AppError('You are not authorized', httpStatus.FORBIDDEN));
   }
   next();
 }
 
+const isOwn = (req, res, next) => {  
+  if (req.params.userId !== req.user._id) {
+    next( new AppError('You are not authorized', httpStatus.FORBIDDEN));
+  }
+  next();
+}
+
 module.exports = {
   auth,
-  isAdmin
+  isAdmin,
+  isOwn
 }
 

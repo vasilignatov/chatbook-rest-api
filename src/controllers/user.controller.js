@@ -30,7 +30,12 @@ const getUser = catchAsync(async (req, res) => {
         throw new AppError('User not found', httpStatus.NOT_FOUND);
     }
 
-    res.json(user);
+    res.json({
+        firstName: user.firstName,    
+        lastName: user.lastName,
+        id: user._id,
+        imageUrl: user.imageUrl    
+    });
 });
 
 const deleteUser = catchAsync(async (req, res) => {
