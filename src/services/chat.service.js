@@ -52,7 +52,7 @@ const getRecentChat = (chatRoomIds, userId) => {
 const getChatByRoomId = (chatRoomId) => {
     return Message
         .find({ chatRoomId })
-        .sort({ createdAt: -1 })
+        .sort({ createdAt: 1 })
         .populate('postedByUserId')
 }
 
