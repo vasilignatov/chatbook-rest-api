@@ -38,6 +38,13 @@ const getUser = catchAsync(async (req, res) => {
     });
 });
 
+const getSuggestions = catchAsync(async (req, res) => { 
+    const searchStr = req.query.search;
+    const suggestions = await userService.getSuggestions(searchStr);
+    
+    res.json(suggestions);
+});
+
 const deleteUser = catchAsync(async (req, res) => {
     const user = await userService.deleteUserById(req.params.userId.toString());
     res.json(user);
@@ -55,5 +62,6 @@ module.exports = {
     createUser,
     getUser,
     deleteUser,
-    updateUser
+    updateUser,
+    getSuggestions
 }

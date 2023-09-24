@@ -40,6 +40,13 @@ const getUsersByIds = async (ids) => {
     return users;
 }
 
+const getSuggestions = async (string) => {
+    const regex = new RegExp(string, "i");
+
+    return User.aggregate()
+        .project({ fullName: { $concat: ['$firstName', ' ', '$lastName'] } })
+        .match({ fullName: regex });
+}
 
 module.exports = {
     getUsers,
@@ -48,5 +55,6 @@ module.exports = {
     createUser,
     updateUserById,
     deleteUserById,
-    getUsersByIds
+    getUsersByIds,
+    getSuggestions
 }

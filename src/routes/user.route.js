@@ -7,6 +7,7 @@ router.get('/', isAdmin, userController.getUsers);
 router.post('/', isAdmin, userController.createUser);
 
 // every user can get other users data (excluding the password and email)
+router.get('/suggestions', userController.getSuggestions);
 router.get('/:userId', userController.getUser);
 
 // Only you can delete and update your own user profile
