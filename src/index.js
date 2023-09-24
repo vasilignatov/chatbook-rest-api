@@ -12,8 +12,7 @@ const server = app.listen(config.PORT, () => console.log('Server is listening on
 
 global.io = socketio(server, {
     cors: {
-        origin: ['http://localhost:3001']
+        origin: ['http://localhost:3000']
     }
 });
 
-global.io.on('connection', sockets.connection);
