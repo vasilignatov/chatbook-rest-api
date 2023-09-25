@@ -3,6 +3,7 @@ exports.sockets = {
 
     connection(socket) {
         socket.on('disconect', () => {
+            console.log('disconect');
             this.users = this.users.filter(user => user.socketId !== socket.id);
         });
 
@@ -19,11 +20,12 @@ exports.sockets = {
             console.log('Other User ID: ', otherUserId);
             this.subscribeToOtherUser(room, otherUserId);
         });
+
     },
 
     subscribeToOtherUser(room, otherUserId) {
         const userSockets = this.users.filter(user => user.userId === otherUserId);
-
+        console.log(userSockets);
         userSockets.map((userInfo) => {
             const socketConn = global.io.sockets.connected(userInfo.socketId);
             if (socketConn) {

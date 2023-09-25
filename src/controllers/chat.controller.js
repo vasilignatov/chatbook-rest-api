@@ -6,7 +6,7 @@ const AppError = require('../utils/AppError');
 
 const initiate = catchAsync(async (req, res) => {
     const { userIds, type } = req.body;
-    const chatInitiator = req.user._id;
+    const chatInitiator = req.user._id.toString();
     const allUserIds = [...userIds, chatInitiator];
     const chatRoom = await chatService.initiateChat(allUserIds, type, chatInitiator);
 
@@ -19,7 +19,7 @@ const postMessage = catchAsync(async (req, res) => {
     const { roomId } = req.params;
 
     const { text } = req.body;
-    const userId = req.user._id;
+    const userId = req.user._id.toString();
     const post = await chatService.createPostInChatRoom(roomId, text, userId);
     console.log(post);
 

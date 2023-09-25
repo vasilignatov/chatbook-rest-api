@@ -31,17 +31,19 @@ const getUser = catchAsync(async (req, res) => {
     }
 
     res.json({
-        firstName: user.firstName,    
+        firstName: user.firstName,
         lastName: user.lastName,
         id: user._id,
-        imageUrl: user.imageUrl    
+        imageUrl: user.imageUrl
     });
 });
 
-const getSuggestions = catchAsync(async (req, res) => { 
+const getSuggestions = catchAsync(async (req, res) => {
     const searchStr = req.query.search;
+
+    if(searchStr == '') return res.status(httpStatus.BAD_REQUEST);
+
     const suggestions = await userService.getSuggestions(searchStr);
-    
     res.json(suggestions);
 });
 

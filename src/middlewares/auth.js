@@ -8,6 +8,7 @@ const auth = (req, res, next) => {
     if (err) {
       return next(err);
     }
+  
     if (!user) {
       return next(new AppError('Please authenticate', httpStatus.UNAUTHORIZED));
     }
@@ -27,7 +28,7 @@ const isAdmin = (req, res, next) => {
 }
 
 const isOwn = (req, res, next) => {  
-  if (req.params.userId !== req.user._id) {
+  if (req.params.userId !== req.user._id.toString()) {
     next( new AppError('You are not authorized', httpStatus.FORBIDDEN));
   }
   next();
