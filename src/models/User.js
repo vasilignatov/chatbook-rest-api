@@ -41,7 +41,8 @@ const userSchema = mongoose.Schema({
         },
     },
     imageUrl: {
-        type: String
+        type: String,
+        default: "https://ik.imagekit.io/8brpz6ecl/blank-profile-picture.png?updatedAt=1695838190461"
     }
 }, { timestamps: true });
 
