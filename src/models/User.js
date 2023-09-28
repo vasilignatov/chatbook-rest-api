@@ -52,11 +52,17 @@ userSchema.statics.isEmailTaken = async function (email) {
 }
 
 userSchema.pre('save', function (next) {
-    bcrypt.hash(this.password, config.SALT_ROUNDS)
-        .then(hash => {
-            this.password = hash;
-            return next();
-        });
+    console.log(this.isModified('password'), ' password');
+    if (this.isModified('password')) {
+        bcrypt.hash(this.password, config.SALT_ROUNDS)
+            .then(hash => {
+
+                this.password = hash;
+                return next();
+            });
+    } else {
+        next();
+    }
 });
 
 userSchema.method('validatePassword', function (password) {
