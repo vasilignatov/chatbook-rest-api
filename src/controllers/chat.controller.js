@@ -33,7 +33,12 @@ const getRecentChat = catchAsync(async (req, res) => {
 
     const rooms = await chatService.getChatRoomsByUserId(userId);
 
-    const roomIds = rooms.map(room => room._id);
+    const roomIds = rooms.map(room => room._id); 
+
+    roomIds.forEach(r => {
+        console.log('Joined to room id: ', r);
+        // global.io.sockets.join(r);
+    });
 
     const recentChat = await chatService.getRecentChat(roomIds, userId);
 

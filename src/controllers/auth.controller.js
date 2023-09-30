@@ -62,10 +62,16 @@ const refreshTokens = catchAsync(async (req, res) => {
     res.json({ tokens });
 });
 
+const createImageKitToken = catchAsync(async (req, res) => {
+    const token = await authService.generateImageKitToken();
+    console.log(token);
+    res.json(token);
+});
 
 module.exports = {
     register,
     login,
     logout,
-    refreshTokens
+    refreshTokens,
+    createImageKitToken
 }
