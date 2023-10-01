@@ -12,7 +12,8 @@ module.exports = {
         JWT_ACCESS_EXPIRATION_MINUTES: 30,
         JWT_REFRESH_EXPIRATION_DAYS: 30,
         IMAGE_KIT_PUBLIC_KEY: 'public_BrrOwcySJsmMwiYPn7AABrM8mW8=',
-        IMAGE_KIT_PRIVATE_KEY: 'private_OmFmuN+//tGgoRoYri2GfBI7gfI='
+        IMAGE_KIT_PRIVATE_KEY: 'private_OmFmuN+//tGgoRoYri2GfBI7gfI=',
+        IMAGE_KIT_ENDPOINT: "https://ik.imagekit.io/8brpz6ecl"
     },
     production: {
         PORT: process.env.PORT,
@@ -22,7 +23,8 @@ module.exports = {
         JWT_ACCESS_EXPIRATION_MINUTES: process.env.JWT_ACCESS_EXPIRATION_MINUTES,
         JWT_REFRESH_EXPIRATION_DAYS: process.env.JWT_REFRESH_EXPIRATION_DAYS,
         IMAGE_KIT_PUBLIC_KEY: process.env.IMAGE_KIT_PUBLIC_KEY,
-        IMAGE_KIT_PRIVATE_KEY:process.env.IMAGE_KIT_PRIVATE_KEY 
+        IMAGE_KIT_PRIVATE_KEY:process.env.IMAGE_KIT_PRIVATE_KEY,
+        IMAGE_KIT_ENDPOINT: process.env.IMAGE_KIT_ENDPOINT
     },
     env: process.env.NODE_ENV
 }
