@@ -8,12 +8,12 @@ const AppError = require('../utils/AppError');
 const { auth } = require('../middlewares/auth.js');
 
 router.use((req, res, next) => {
-    console.log(req.url);
+    console.log(req.method, ' -> ', req.url);
     next();
 });
 
-router.use('/users', auth, userController);
 router.use('/auth', authController);
+router.use('/users', auth, userController);
 router.use('/chat', auth, chatController);
 
 router.all('*', (req, res, next) => {

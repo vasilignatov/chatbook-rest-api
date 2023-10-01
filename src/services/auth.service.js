@@ -1,11 +1,10 @@
 const httpStatus = require('http-status');
-const ImageKit = require("imagekit");
 
 const Token = require('../models/Token');
 const AppError = require('../utils/AppError');
 const userService = require('./user.service');
 const tokenService = require('./token.service');
-const config = require('../config/config')[process.env.NODE_ENV];
+
 
 const loginLocal = async (email, password) => {
     const user = await userService.getUserByEmail(email);
@@ -41,19 +40,8 @@ const refreshAuth = async (refreshToken) => {
     }
 }
 
-const generateImageKitToken = async () => {
-    const imagekit = new ImageKit({
-        publicKey: config.IMAGE_KIT_PUBLIC_KEY,
-        privateKey: config.IMAGE_KIT_PRIVATE_KEY,
-        urlEndpoint: config.IMAGE_KIT_ENDPOINT
-    });
-    const authParams = imagekit.getAuthenticationParameters();
-    return authParams;
-}
-
 module.exports = {
     loginLocal,
     logout,
-    refreshAuth,
-    generateImageKitToken
+    refreshAuth
 }
