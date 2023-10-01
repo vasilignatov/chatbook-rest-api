@@ -24,7 +24,7 @@ async function expressConfig(app) {
     }));
 
     // Middleware to parse requests with JSON payloads
-    app.use(express.json());
+    app.use(express.json({limit: '35mb'}));
 
     // Sanitize request data
     app.use(xss());
@@ -32,7 +32,8 @@ async function expressConfig(app) {
 
     // Middleware to parse URL-encoded da
     app.use(express.urlencoded({
-        extended: true
+        extended: true,
+        limit: '35mb'
     }));
 
     // Middleware to compress response 
