@@ -3,12 +3,19 @@ const toJSON = require('@meanie/mongoose-to-json');
 
 const messageSchema = new mongoose.Schema(
     {
-        chatRoomId: mongoose.Schema.Types.ObjectId,
+        chatRoomId: {
+            type: mongoose.Schema.Types.ObjectId
+        },
         postedByUserId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
+            required: true
         },
-        text: String,
+        text: {
+            type: String,
+            minlength: 1,
+            required: true
+        }
     },
     {
         timestamps: true
