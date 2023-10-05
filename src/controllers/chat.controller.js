@@ -7,7 +7,7 @@ const AppError = require('../utils/AppError');
 const initiate = catchAsync(async (req, res) => {
     const { userIds, type } = req.body;
     const chatInitiator = req.user._id.toString();
-    const allUserIds = [...userIds, chatInitiator];
+    const allUserIds = [...userIds, chatInitiator];   
     const chatRoom = await chatService.initiateChat(allUserIds, type, chatInitiator);
 
     res
@@ -17,28 +17,19 @@ const initiate = catchAsync(async (req, res) => {
 
 const postMessage = catchAsync(async (req, res) => {
     const { roomId } = req.params;
-
     const { text } = req.body;
+    
     const userId = req.user._id.toString();
     const post = await chatService.createPostInChatRoom(roomId, text, userId);
-    console.log(post);
 
-    // emit new message to the room
-    global.io.sockets.in(roomId).emit('new-message', { message: post });
-    res.end();
+    
 });
 
 const getRecentChat = catchAsync(async (req, res) => {
     const userId = req.user._id.toString();
 
     const rooms = await chatService.getChatRoomsByUserId(userId);
-
-    const roomIds = rooms.map(room => room._id); 
-
-    roomIds.forEach(r => {
-        console.log('Joined to room id: ', r);
-        // global.io.sockets.join(r);
-    });
+    const roomIds = rooms.map(room => room._id);
 
     const recentChat = await chatService.getRecentChat(roomIds, userId);
 
