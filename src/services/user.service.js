@@ -30,6 +30,7 @@ const updateUserById = async (id, userData) => {
 
     if (!user) throw new AppError('User not fount', httpStatus.NOT_FOUND);
     console.log(userData);
+
     if (userData.imageUrl) {
         const imagekit = new ImageKit({
             publicKey: config.IMAGE_KIT_PUBLIC_KEY,
@@ -44,8 +45,9 @@ const updateUserById = async (id, userData) => {
             if(err) return console.error(err);
             userData.imageUrl = result.url;
         });
+    } else {
+        delete userData.imageName;
     }
-    delete userData.imageName;
     
     Object.assign(user, userData);
     await user.save();

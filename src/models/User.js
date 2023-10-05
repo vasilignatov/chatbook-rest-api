@@ -52,7 +52,6 @@ userSchema.statics.isEmailTaken = async function (email) {
 }
 
 userSchema.pre('save', function (next) {
-    console.log(this.isModified('password'), ' password');
     if (this.isModified('password')) {
         bcrypt.hash(this.password, config.SALT_ROUNDS)
             .then(hash => {
