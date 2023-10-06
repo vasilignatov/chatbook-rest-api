@@ -15,16 +15,6 @@ const initiate = catchAsync(async (req, res) => {
         .json(chatRoom);
 });
 
-const postMessage = catchAsync(async (req, res) => {
-    const { roomId } = req.params;
-    const { text } = req.body;
-    
-    const userId = req.user._id.toString();
-    const post = await chatService.createPostInChatRoom(roomId, text, userId);
-
-    
-});
-
 const getRecentChat = catchAsync(async (req, res) => {
     const userId = req.user._id.toString();
 
@@ -57,7 +47,6 @@ const getChatByRoomId = catchAsync(async (req, res) => {
 
 module.exports = {
     initiate,
-    postMessage,
     getRecentChat,
     getChatByRoomId,
 }
