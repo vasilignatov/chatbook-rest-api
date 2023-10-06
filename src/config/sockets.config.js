@@ -1,5 +1,5 @@
 const socketio = require('socket.io');
-
+const chatService = require('../services/chat.service');
 function socketInit(server) {
 
     const io = socketio(server, {
@@ -45,23 +45,32 @@ function socketInit(server) {
         });
 
         socket.on('join_room', (roomId, otherUserId) => {
-            console.log(socket.rooms);
             // cheching if the room exists
-            const currentRoom = Object.keys(socket.rooms).find(room => room !== socket.id);
-            if (currentRoom == roomId) return;
+            if ((socket.rooms).has(roomId)) {
+                // if exist first leave it
+                socket.leave(roomId);
+            }
 
-            if (currentRoom) socket.leave(roomid);
-
+            console.log('------socket join room: ', roomId);
             socket.join(roomId);
+            console.log(socket.rooms);
         });
 
         socket.on('leave_room', (roomId) => {
-            console.log('leave room: ', roomId);
+            console.log('------socket left room: ', roomId);
             socket.leave(roomId);
         });
 
-        socket.on('send_message', (message) => {
+        socket.on('send_message', async (message) => {
+            const { roomId, senderId, text } = message;
+            try {
+                const messageRecord = await chatService.createPostInChatRoom(roomId, text, senderId)
 
+                socket.to(roomId).emit('receive_message', messageRecord);
+            } catch (err) {
+                console.log('Message record faild: ', err);
+                socket.emit('server_error', { status: 500, message: 'Initial server error!' });
+            }
         });
 
         socket.on('typing', (room) => {
