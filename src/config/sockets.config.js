@@ -65,8 +65,7 @@ function socketInit(server) {
             const { roomId, senderId, text } = message;
             try {
                 const messageRecord = await chatService.createPostInChatRoom(roomId, text, senderId)
-
-                socket.to(roomId).emit('receive_message', messageRecord);
+                io.sockets.to(roomId).emit('receive_message', messageRecord);
             } catch (err) {
                 console.log('Message record faild: ', err);
                 socket.emit('server_error', { status: 500, message: 'Initial server error!' });
@@ -80,6 +79,7 @@ function socketInit(server) {
         socket.on('stop_typing', (room) => {
             socket.in(room).emit();
         });
+        console.log(onlineUsers);
     });
 }
 
