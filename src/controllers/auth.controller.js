@@ -14,7 +14,7 @@ const register = catchAsync(async (req, res) => {
         .status(httpStatus.CREATED)
         .json({
             user: {
-                id: user.id,
+                _id: user.id,
                 email: user.email,
                 firstName: user.firstName,
                 lastName: user.lastName,
@@ -31,7 +31,7 @@ const login = catchAsync(async (req, res) => {
 
     res.json({
         user: {
-            id: userData.id,
+            _id: userData.id,
             email: userData.email,
             firstName: userData.firstName,
             lastName: userData.lastName,
