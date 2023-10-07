@@ -87,14 +87,14 @@ const initiateChat = async (userIds, type, chatInitiator) => {
 }
 
 const createPostInChatRoom = async (chatRoomId, text, postedByUserId) => {
-    const post = await Message.create({
-        chatRoomId,
-        text,
-        postedByUserId,
-    });
-
-    // TODO
-    return post;
+    const post = await Message
+        .create({
+            chatRoomId,
+            text,
+            postedByUserId,
+        })
+    
+    return post.populate('postedByUserId');;
 }
 
 module.exports = {
