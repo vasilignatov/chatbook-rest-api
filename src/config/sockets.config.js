@@ -1,5 +1,6 @@
 const socketio = require('socket.io');
 const chatService = require('../services/chat.service');
+
 function socketInit(server) {
 
     const io = socketio(server, {
@@ -72,13 +73,17 @@ function socketInit(server) {
             }
         });
 
-        socket.on('typing', (room) => {
-            socket.in(room).emit();
+        socket.on('user_typing', (roomId, isTyping) => {
+            console.log(roomId, isTyping);
+            if(isTyping) {
+                socket.in(roomId).emit('typing_notify', true);
+            } else {
+                socket.in(roomId).emit('typing_notify', false);
+            }
         });
 
-        socket.on('stop_typing', (room) => {
-            socket.in(room).emit();
-        });
+
+
         console.log(onlineUsers);
     });
 }
