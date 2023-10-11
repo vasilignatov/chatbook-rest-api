@@ -9,7 +9,7 @@ module.exports = {
         MONGODB_URL: 'mongodb://127.0.0.1:27017/messanger-clone-rest-api',
         JWT_SECRET: '88819a11e0d24153de4fbe9c0b9d3206ea3ac16905bd6b44b7b6d11fc0863751a1ca4467ade1ff42fce5d0ecd7474d2913209127ccbc09356fde662b91f40360',
         SALT_ROUNDS: 1,
-        JWT_ACCESS_EXPIRATION_MINUTES: 30,
+        JWT_ACCESS_EXPIRATION_MINUTES: 60,
         JWT_REFRESH_EXPIRATION_DAYS: 30,
         IMAGE_KIT_PUBLIC_KEY: 'public_BrrOwcySJsmMwiYPn7AABrM8mW8=',
         IMAGE_KIT_PRIVATE_KEY: 'private_OmFmuN+//tGgoRoYri2GfBI7gfI=',
