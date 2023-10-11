@@ -13,7 +13,6 @@ function socketInit(server) {
     let onlineUsers = [];
 
     io.on('connection', (socket) => {
-        console.log(socket.id, 'is connected');
 
         socket.on('disconnect', (userId) => {
             console.log('disconect: ', userId);
@@ -40,7 +39,6 @@ function socketInit(server) {
                     socketId: socket.id
                 });
             }
-            console.log(onlineUsers);
             // update all online users after new user is connected 
             io.emit('online_users', onlineUsers);
         });
@@ -54,7 +52,6 @@ function socketInit(server) {
 
             console.log('------socket join room: ', roomId);
             socket.join(roomId);
-            console.log(socket.rooms);
         });
 
         socket.on('leave_room', (roomId) => {
@@ -74,17 +71,12 @@ function socketInit(server) {
         });
 
         socket.on('user_typing', (roomId, isTyping) => {
-            console.log(roomId, isTyping);
             if(isTyping) {
                 socket.in(roomId).emit('typing_notify', true);
             } else {
                 socket.in(roomId).emit('typing_notify', false);
             }
         });
-
-
-
-        console.log(onlineUsers);
     });
 }
 

@@ -18,15 +18,15 @@ const loginLocal = async (email, password) => {
 
 const logout = async (refreshToken) => {
     const token = await Token.findOne({ token: refreshToken, type: 'refresh', blacklisted: false });
-
+    
     if (!token) {
         throw new AppError(httpStatus[`404_MESSAGE`], httpStatus.NOT_FOUND);
     }
-
+    
     await token.deleteOne();
 }
 
-const refreshAuth = async (refreshToken) => {
+const refreshAuth = async (refreshToken) => { 
     try {
         const refreshTokenDoc = await tokenService.verifyToken(refreshToken, 'refresh');
         const user = await userService.getUserById(refreshTokenDoc.user);

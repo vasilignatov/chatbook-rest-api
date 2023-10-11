@@ -9,7 +9,6 @@ const register = catchAsync(async (req, res) => {
     const user = await userService.createUser({ email, password, firstName, lastName });
     const tokens = await tokenService.generateAuthTokens(user);
 
-
     res
         .status(httpStatus.CREATED)
         .json({
@@ -50,7 +49,7 @@ const logout = catchAsync(async (req, res) => {
 
 const refreshTokens = catchAsync(async (req, res) => {
     const tokens = await authService.refreshAuth(req.body.refreshToken);
-    res.json({ tokens });
+    res.json(tokens);
 });
 
 module.exports = {

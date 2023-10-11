@@ -4,8 +4,8 @@ const { MongooseError } = require('mongoose');
 
 const errorHandler = (err, req, res, next) => {
     let { message, statusCode } = err;
-    console.log(err);
-    console.log("STATUS CODE: ", message, statusCode);
+    // console.log(err);
+    // console.log("STATUS CODE: ", message, statusCode);
     if (err instanceof MongooseError) {
         statusCode = httpStatus.BAD_REQUEST;
     }
