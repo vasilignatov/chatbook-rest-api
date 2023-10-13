@@ -27,9 +27,7 @@ const createUser = async (userData) => {
 
 const updateUserById = async (id, userData) => {
     const user = await getUserById(id);
-
     if (!user) throw new AppError('User not fount', httpStatus.NOT_FOUND);
-    console.log(userData);
 
     if (userData.imageUrl) {
         const imagekit = new ImageKit({
@@ -38,17 +36,29 @@ const updateUserById = async (id, userData) => {
             urlEndpoint: config.IMAGE_KIT_ENDPOINT
         });
 
-        imagekit.upload({
-            file: userData.imageUrl,
-            fileName: userData.imageName
-        }, (err, result) => {
-            if(err) return console.error(err);
-            userData.imageUrl = result.url;
-        });
+        try {
+            await new Promise((resolve, reject) => {
+                imagekit.upload({
+                    file: userData.imageUrl,
+                    fileName: userData.imageName
+                }, (err, result) => {
+                    if (err) return reject(err);
+                    
+                    if (result.url) {
+                        userData.imageUrl = result.url;
+                        return resolve();
+                    }
+                });
+            })
+
+        } catch (error) {
+            console.log(error);
+        }
+
     } else {
-        delete userData.imageName;
+        delete userData.imageUrl;
     }
-    
+    delete userData.imageName;
     Object.assign(user, userData);
     await user.save();
     return user;
