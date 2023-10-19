@@ -53,12 +53,13 @@ userSchema.statics.isEmailTaken = async function (email) {
 
 userSchema.pre('save', function (next) {
     if (this.isModified('password')) {
-        bcrypt.hash(this.password, config.SALT_ROUNDS)
+        bcrypt.hash(this.password, Number(config.SALT_ROUNDS))
             .then(hash => {
 
                 this.password = hash;
                 return next();
-            });
+            })
+            .catch(err => console.log(err));
     } else {
         next();
     }
@@ -67,7 +68,6 @@ userSchema.pre('save', function (next) {
 userSchema.method('validatePassword', function (password) {
     return bcrypt.compare(password, this.password);
 });
-
 
 // userSchema.plugin(toJson);
 

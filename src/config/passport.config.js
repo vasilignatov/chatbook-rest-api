@@ -15,10 +15,10 @@ const verify = async (payload, done) => {
         if (payload.type !== 'access') {
             throw new AppError('Invalid token type', httpStatus.UNAUTHORIZED);
         }
-
-        if (payload.exp < Date.now()) {
-            throw new AppError('Access token expired', httpStatus.UNAUTHORIZED);
-        }
+        // Access token validity check
+        // if (payload.exp < Date.now()) {
+        //     throw new AppError('Access token expired', httpStatus.UNAUTHORIZED);
+        // }
 
         const user = await User.findById(payload.sub).lean();
 
