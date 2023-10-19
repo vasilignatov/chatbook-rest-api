@@ -19,7 +19,7 @@ async function expressConfig(app) {
 
     // Middleware to enable CORS
     app.use(cors({
-        origin: ["http://localhost:3000", "http://localhost:3001", "http://localhost:3100"],
+        origin: ["https://main--sensational-kangaroo-59d175.netlify.app"],
         credentials: true, 
     }));
 
