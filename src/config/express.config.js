@@ -18,10 +18,7 @@ async function expressConfig(app) {
     // app.use(helmet());
 
     // Middleware to enable CORS
-    app.use(cors({
-        origin: ["https://main--sensational-kangaroo-59d175.netlify.app"],
-        credentials: true, 
-    }));
+    app.use(cors());
 
     // Middleware to parse requests with JSON payloads
     app.use(express.json({limit: '35mb'}));
