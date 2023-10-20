@@ -5,7 +5,7 @@ function socketInit(server) {
 
     const io = socketio(server, {
         cors: {
-            origin: ['https://main--sensational-kangaroo-59d175.netlify.app'],
+            origin: '*',
             credentials: true
         }
     });
