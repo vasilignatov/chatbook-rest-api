@@ -1,6 +1,6 @@
-# e-commerce-rest-api
-This project is REST-API server build for **[e-commerce-react-app](https://github.com/vasilignatov/e-commerce-react-app)** SPA.\
-The project is built on the basis of **[express-boilerplate](https://github.com/vasilignatov/express-boilerplate)** 
+# chatbook-rest-api
+This project is REST-API server build for **[chatbook](https://github.com/vasilignatov/chatbook)** SPA.\
+The project is built on the basis of **[express-boilerplate](https://github.com/vasilignatov/express-boilerplate)**. 
 
 ## Endpoints
 
